@@ -1,4 +1,4 @@
-from flask import Flask,render_template,Response
+from flask import Flask,render_template,Response, request
 import cv2
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from tensorflow.keras.preprocessing.image import img_to_array
@@ -12,9 +12,14 @@ import cv2
 import os
 import numpy as np
 from PIL import Image
+TEMPLATE_DIR = os.path.abspath('../templates')
+STATIC_DIR = os.path.abspath('../static')
+
 
 
 app = Flask(__name__)
+global switch
+switch =1
 
 
 def detect_and_predict_mask(frame, faceNet, maskNet):
@@ -168,11 +173,36 @@ def generate_frames():
 
 @app.route('/')
 def index():
-    return render_template('index.html')        
+    return render_template('index.html')
 
+@app.route('/index1')
+def index1():
+    return render_template('index1.html')         
+# @app.route('/style')
+# def style():
+#     return render_template('mystyle.css')
+               
 @app.route('/video')
 def video():
     return Response(generate_frames(),mimetype='multipart/x-mixed-replace; boundary=frame')
 
+# @app.route('/requests',methods=['POST','GET'])
+# def tasks():
+#     global switch,camera
+#     if request.method == 'POST':
+        
+#         if  request.form.get('stop') == 'Stop/Start':
+            
+#             if(switch==1):
+#                 switch=0
+#                 camera.release()
+#                 cv2.destroyAllWindows()
+                
+#             else:
+#                 camera = cv2.VideoCapture(0)
+#                 switch=1
+
+#     elif request.method=='GET':
+#         return render_template('index.html')
 if __name__=="__main__":
     app.run(debug=True)
