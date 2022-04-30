@@ -1,18 +1,31 @@
 <html lang="en">
 <head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='mystyle1.css') }}" >
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Detector</title>
 </head>
 <body>
-    <h1>Hi</h1>
-    <div>
+    <section class="outer">    
+    <div class="main">
 
        
-    <img src="{{ url_for('video') }}" height="80%" width="50%"/>    
+    <img src="{{ url_for('video') }}" height="80%" width="50%" class="video"/>    
+
+    <img src="https://5.imimg.com/data5/PI/FD/NK/SELLER-5866466/images-500x500.jpg" class="picture"/>
+
+    <div class="txt">
+        Sit/stand still 
+    </div>
+    <div class="txt1">and look into the camera!</div>
+
+    <form class="start" method="post" action="{{ url_for('tasks') }}">
+        <input type="submit" value="Stop/Start" name="stop" />
+        </form>
+
 
 </div>
-    
+    </section>
 </body>
 </html>

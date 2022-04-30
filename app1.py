@@ -16,9 +16,7 @@ import argparse
 import imutils
 import time
 import cv2
-from streamlit_webrtc import webrtc_streamer, VideoProcessorBase, RTCConfiguration
-import av
-import threading
+
 
 
 # Setting custom Page Title and Icon with changed layout and sidebar state

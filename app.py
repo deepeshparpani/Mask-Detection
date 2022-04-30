@@ -12,6 +12,8 @@ import cv2
 import os
 import numpy as np
 from PIL import Image
+import gtts  
+from playsound import playsound  
 TEMPLATE_DIR = os.path.abspath('../templates')
 STATIC_DIR = os.path.abspath('../static')
 
@@ -107,8 +109,10 @@ faceNet = cv2.dnn.readNet(prototxtPath, weightsPath)
 print("[INFO] loading face mask detector model...")
 maskNet = load_model(args["model"])
 
-app=Flask(__name__)
-camera=cv2.VideoCapture(0)
+
+
+
+
 
 def generate_frames():
     while True:
@@ -144,6 +148,7 @@ def generate_frames():
             # 			color= (0, 0, 255)
             # 	else: 
             # 			color= (255, 165, 0)	
+            count_nomask=0
             for (box, pred) in zip(locs, preds):
                 # unpack the bounding box and predictions
                 (startX, startY, endX, endY) = box
@@ -153,9 +158,20 @@ def generate_frames():
                 # the bounding box and text
                 label = "Mask" if mask > withoutMask else "No Mask"
                 color = (0, 255, 0) if label == "Mask" else (0, 0, 255)
+                
+                if count_nomask==0:
+                    prevlabel="No Mask"
+                if label=="No Mask" and prevlabel=="No Mask":
+                    count_nomask+=1
+                    prevlabel=label
+
+                
+                if(count_nomask>300):
+                    playsound("alert.mp3")
+
                     
                 # include the probability in the label
-                label = "{}: {:.2f}%".format(label, max(mask, withoutMask) * 100)
+                label = "{}: {:.2f}%".format(label, max(mask, withoutMask) * 100-1.25)
                     
                 # include the probability in the label
                 # label = "{}: {:.2f}%".format(label, max(incorrectMask, mask, withoutMask) * 100)
@@ -185,6 +201,25 @@ def index1():
 @app.route('/video')
 def video():
     return Response(generate_frames(),mimetype='multipart/x-mixed-replace; boundary=frame')
+
+camera = cv2.VideoCapture(0)
+@app.route('/requests',methods=['POST','GET'])
+def tasks():
+    global switch,camera
+    if request.method == 'POST':
+        if  request.form.get('stop') == 'Stop/Start':
+            
+            if(switch==1):
+                switch=0
+                camera.release()
+                cv2.destroyAllWindows()
+                
+            else:
+                camera = cv2.VideoCapture(0)
+                switch=1
+    elif request.method=='GET':
+        return render_template('index1.html')
+    return render_template('index1.html')
 
 # @app.route('/requests',methods=['POST','GET'])
 # def tasks():

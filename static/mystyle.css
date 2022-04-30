@@ -2,9 +2,48 @@
     background-color: #4CAF50; /* Green */
     border: none;
     color: white;
-    padding: 15px 32px;
+    padding: 50px 80px;
+    font-size: 40px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
     text-align: center;
-    text-decoration: none;
+    text-decoration: solid;
     display: inline-block;
-    font-size: 16px;
+    font-style: bold;
+  
+   align-self: center;
+   border: 2px solid black;
+   position: relative;
+   left: 450px; 
   }
+
+
+.buttonarea{
+     
+margin-bottom: 100px;
+
+
+}
+
+.heading{
+margin-right: 50px;
+font-size: 100px;
+color: #4f2e4b;
+text-align: center;
+
+}
+
+.sidetext{
+text-align: center;
+font-size: 65px;
+
+
+}
+
+.outborder{
+    border-style: solid;
+    border-width: 10px;
+    border-color: #4CAF50;
+   
+}
+
+
